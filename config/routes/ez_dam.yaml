@@ -1,0 +1,5 @@
+ezplatform_dam_search:
+    path: /dam/search
+    defaults:
+        _controller: App\Controller\DamAssetSearchController::fetchResultsAction
+    methods: [GET]

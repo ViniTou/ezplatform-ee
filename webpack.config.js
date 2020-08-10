@@ -15,6 +15,9 @@ Encore.setOutputPath('public/assets/build')
 // Put your config here.
 Encore.addEntry('app_default', [
     path.resolve(__dirname, './assets/scss/welcome-page.scss'),
+]).addEntry('ezplatform-admin-ui-content-edit-parts-js', [
+    path.resolve(__dirname, './assets/js/dam_search.js'),
+    path.resolve(__dirname, './assets/js/ezdamimageasset.js'),
 ]);
 
 const projectConfig = Encore.getWebpackConfig();

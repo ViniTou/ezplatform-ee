@@ -24,6 +24,7 @@
         "ezsystems/ezplatform-admin-ui": "^2.2@dev",
         "ezsystems/ezplatform-admin-ui-assets": "~5.1.0@beta",
         "ezsystems/ezplatform-calendar": "^1.2@dev",
+        "ezsystems/ezplatform-connector-dam": "dev-EZEE-3223-spike-contracts",
         "ezsystems/ezplatform-content-forms": "^1.2@dev",
         "ezsystems/ezplatform-core": "^2.2@dev",
         "ezsystems/ezplatform-cron": "^3.1@dev",
@@ -80,7 +81,8 @@
         "symfony/web-link": "^5.0",
         "symfony/webpack-encore-bundle": "^1.7",
         "symfony/yaml": "^5.0",
-        "twig/extra-bundle": "^3.0"
+        "twig/extra-bundle": "^3.0",
+        "unsplash/unsplash": "^2.5"
     },
     "require-dev": {
         "behat/behat": "^3.6",

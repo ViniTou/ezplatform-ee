@@ -1,0 +1,25 @@
+{% trans_default_domain "content_fields" %}
+
+{% extends "@EzPublishCore/content_fields.html.twig" %}
+
+{% block ezdamimageasset_field %}
+    {% apply spaceless %}
+        {% if not ez_field_is_empty( content, field ) %}
+            {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ez-field-preview ez-field-preview--ezimageasset')|trim}) %}
+            <div {{ block( 'field_attributes' ) }}>
+
+                {{ render(controller(
+                    'App\\Controller\\DamAssetSearchController::renderAssetAction', {
+                        id: field.value.destinationContentId,
+                        source: field.value.source,
+                        content: content,
+                        field: field,
+                    }
+                )) }}
+
+            </div>
+        {% else %}
+            <em>{{ 'ezimageasset.not_available'|trans|desc('Image asset is not available (related content has been deleted or you have insufficient permissions)') }}</em>
+        {% endif %}
+    {% endapply %}
+{% endblock %}

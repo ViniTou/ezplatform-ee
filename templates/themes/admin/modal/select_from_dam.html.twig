@@ -1,0 +1,39 @@
+<div
+    class="modal fade ez-modal"
+    id="select-from-dam-modal"
+    role="dialog"
+    data-target-search="{{  path('ezplatform_dam_search') }}"
+    data-source="unsplash"
+    style="
+        margin-top: 240px;"
+>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'dam.modal.title'|trans|desc('Search for asset') }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'translation.modal_close'|trans|desc('Close') }}">
+                    <svg class="ez-icon ez-icon--medium" aria-hidden="true">
+                        <use xlink:href="{{ asset('bundles/ezplatformadminui/img/ez-icons.svg') }}#discard"></use>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+{#                {{ form_start(form, {'action': path('ezplatform_dam_search')}) }}#}
+                {{- form_widget(form.query) -}}
+                {{- form_widget(form.search) -}}
+{#                {{ form_end(form) }}#}
+                <div id="search-results" style="
+              display: grid;
+                grid-template-columns: auto auto auto;
+                padding: 10px;">
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">
+                    {{ 'dam.modal.cancel'|trans|desc('Cancel') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

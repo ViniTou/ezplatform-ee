@@ -26,3 +26,75 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Controller\DamAssetSearchController:
+        arguments:
+            $formFactory: '@Symfony\Component\Form\FormFactoryInterface'
+            $damConnectorService: '@App\Connector\Dam\AssetService'
+            $assetVariationTransformer: '@App\Connector\Dam\Variation\AssetTransformerService'
+        tags:
+            - { name: controller.service_arguments }
+
+    App\FieldType\DamImageAsset\Type:
+        parent: ezpublish.fieldType
+        autowire: false
+        autoconfigure: false
+        arguments:
+            - '@ezpublish.api.service.content'
+            - '@ezpublish.api.service.content_type'
+            - '@eZ\Publish\Core\FieldType\ImageAsset\AssetMapper'
+            - '@ezpublish.spi.persistence.cache.contentHandler'
+        tags:
+            - { name: ezplatform.field_type, alias: ezdamimageasset }
+
+    App\Form\Type\DamAssetType:
+        tags:
+            - { name: 'form.type' }
+
+    App\Form\FieldType\DamImageAssetFieldType:
+        arguments:
+            $contentService: '@ezpublish.api.service.content'
+            $mapper: '@eZ\Publish\Core\FieldType\ImageAsset\AssetMapper'
+            $maxUploadSize: '@EzSystems\EzPlatformContentForms\ConfigResolver\MaxUploadSize'
+        tags:
+            - { name: 'form.type' }
+
+    App\Persistance\FieldValue\Converter\DamImageAssetConverter:
+        tags:
+            - { name: ezplatform.field_type.legacy_storage.converter, alias: ezdamimageasset }
+
+    App\FieldType\Mapper\DamImageAssetFormMapper:
+        arguments:
+            $fieldTypeService: '@ezpublish.api.service.field_type'
+        tags:
+            - { name: ezplatform.field_type.form_mapper.value, fieldType: ezdamimageasset }
+
+    App\Unsplash\UnsplashClient:
+        arguments:
+            $applicationId: 'ph7rpEXv0YABz3IvhziQyAtQylZGpVsgywSNGpcjm6E'
+            $secret: 'GGUMvEFIkhg_TegI28nA7nc2f7siypc2cjIIgr97KlI'
+            $callbackUrl: 'localhost:8080/admin'
+            $utmSource: 'Ibexa Platform DAM Connector'
+
+    App\Connector\Dam\Collector\GenericCollector:
+        arguments:
+            $handlers: !tagged_iterator { tag: ibexa.platform.connector.dam.handler, index_by: source }
+            $transformers: !tagged_iterator { tag: ibexa.platform.connector.dam.transformer, index_by: source }
+
+    App\Unsplash\Dam\Handler\Handler:
+        arguments:
+            $client: '@App\Unsplash\UnsplashClient'
+        tags:
+            - { name: ibexa.platform.connector.dam.handler, source: unsplash }
+
+    App\Connector\Dam\AssetService:
+        arguments:
+            $collector: '@App\Connector\Dam\Collector\GenericCollector'
+
+    App\Connector\Dam\Variation\AssetTransformerService:
+        arguments:
+            $collector: '@App\Connector\Dam\Collector\GenericCollector'
+
+    App\Unsplash\Dam\Transformer\Transformer:
+        tags:
+            - { name: ibexa.platform.connector.dam.transformer, source: unsplash }
